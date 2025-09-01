@@ -1,0 +1,85 @@
+{
+  "warehouses": [
+    {
+      "id": 1,
+      "name": "Warehouse A",
+      "location": "Mumbai, India",
+      "manager": "Rahul Sharma",
+      "capacity": 10000,
+      "products": [
+        {
+          "id": 101,
+          "name": "Laptop",
+          "category": "Electronics",
+          "quantity": 120,
+          "reorderLevel": 20,
+          "price": 55000,
+          "lastUpdated": "2025-08-29T10:30:00Z"
+        },
+        {
+          "id": 102,
+          "name": "Phone",
+          "category": "Electronics",
+          "quantity": 300,
+          "reorderLevel": 50,
+          "price": 25000,
+          "lastUpdated": "2025-08-28T17:15:00Z"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Warehouse B",
+      "location": "Delhi, India",
+      "manager": "Neha Verma",
+      "capacity": 15000,
+      "products": [
+        {
+          "id": 103,
+          "name": "Refrigerator",
+          "category": "Appliances",
+          "quantity": 80,
+          "reorderLevel": 10,
+          "price": 40000,
+          "lastUpdated": "2025-08-27T09:45:00Z"
+        },
+        {
+          "id": 104,
+          "name": "Microwave Oven",
+          "category": "Appliances",
+          "quantity": 150,
+          "reorderLevel": 30,
+          "price": 12000,
+          "lastUpdated": "2025-08-26T14:20:00Z"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Warehouse C",
+      "location": "Bangalore, India",
+      "manager": "Arjun Mehta",
+      "capacity": 12000,
+      "products": [
+        {
+          "id": 105,
+          "name": "Shirts",
+          "category": "Clothing",
+          "quantity": 500,
+          "reorderLevel": 100,
+          "price": 1200,
+          "lastUpdated": "2025-08-25T16:10:00Z"
+        },
+        {
+          "id": 106,
+          "name": "Shoes",
+          "category": "Footwear",
+          "quantity": 200,
+          "reorderLevel": 40,
+          "price": 2500,
+          "lastUpdated": "2025-08-24T11:30:00Z"
+        }
+      ]
+    }
+  ]
+}
