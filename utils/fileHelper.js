@@ -1,15 +1,43 @@
 import fs from "fs";
 import path from "path";
+import { fileURLToPath } from "url";
 
-const filePath = path.join("data", "gb.json");
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-// Read JSON file
-export const readData = () => {
-  const raw = fs.readFileSync(filePath, "utf-8");
-  return JSON.parse(raw);
+
+const dataPath = path.join(__dirname, "../data");
+const gbPath = path.join(dataPath, "gb.json");
+const orderPath = path.join(dataPath, "order.json");
+const shipmentPath = path.join(dataPath, "shipment.json");
+
+
+const safeRead = (file) => {
+  try {
+    if (!fs.existsSync(file)) return [];
+    const raw = fs.readFileSync(file, "utf-8");
+    return JSON.parse(raw || "[]");
+  } catch (err) {
+    console.error(`Error reading ${file}:`, err);
+    return [];
+  }
 };
 
-// Write JSON file
-export const writeData = (data) => {
-  fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
+
+const safeWrite = (file, data) => {
+  try {
+    fs.writeFileSync(file, JSON.stringify(data, null, 2));
+  } catch (err) {
+    console.error(`Error writing ${file}:`, err);
+  }
 };
+
+
+export const readData = () => safeRead(gbPath);
+export const writeData = (data) => safeWrite(gbPath, data);
+
+export const readOrder = () => safeRead(orderPath);
+export const writeOrder = (data) => safeWrite(orderPath, data);
+
+export const readShipment = () => safeRead(shipmentPath);
+export const writeShipment = (data) => safeWrite(shipmentPath, data);

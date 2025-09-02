@@ -1,0 +1,29 @@
+[
+  {
+    "shipmentId": "SHIP-1725273600001",
+    "orderId": "ORD-1001",
+    "status": "In Transit",
+    "origin": "Mumbai, India",
+    "destination": "Bengaluru, India",
+    "expectedDelivery": "2025-09-07",
+    "warehouseNo": "WH-01"
+  },
+  {
+    "shipmentId": "SHIP-1725273600002",
+    "orderId": "ORD-1002",
+    "status": "Dispatched",
+    "origin": "Pune, India",
+    "destination": "Delhi, India",
+    "expectedDelivery": "2025-09-08",
+    "warehouseNo": "WH-05"
+  },
+  {
+    "shipmentId": "SHIP-1756779665538",
+    "orderId": "ORD-1693663200000",
+    "status": "In Transit",
+    "origin": "Hyderabad",
+    "destination": "Chennai",
+    "expectedDelivery": "2025-09-08",
+    "warehouseNo": "WH-09"
+  }
+]
