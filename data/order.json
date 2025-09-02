@@ -3,8 +3,16 @@
     "orderId": "ORD1001",
     "customerName": "TechSolutions Pvt Ltd",
     "items": [
-      { "productId": "P001", "name": "Dell Latitude Laptops", "quantity": 15 },
-      { "productId": "P002", "name": "Logitech Wireless Mouse", "quantity": 30 }
+      {
+        "productId": "P001",
+        "name": "Dell Latitude Laptops",
+        "quantity": 15
+      },
+      {
+        "productId": "P002",
+        "name": "Logitech Wireless Mouse",
+        "quantity": 30
+      }
     ],
     "totalAmount": 1250000,
     "status": "Pending",
@@ -15,7 +23,11 @@
     "orderId": "ORD1002",
     "customerName": "GreenMart Retailers",
     "items": [
-      { "productId": "P003", "name": "Samsung Galaxy Smartphones", "quantity": 50 }
+      {
+        "productId": "P003",
+        "name": "Samsung Galaxy Smartphones",
+        "quantity": 50
+      }
     ],
     "totalAmount": 1600000,
     "status": "Shipped",
@@ -26,12 +38,31 @@
     "orderId": "ORD1003",
     "customerName": "MediCare Hospitals Ltd",
     "items": [
-      { "productId": "P004", "name": "Patient Monitoring Systems", "quantity": 10 },
-      { "productId": "P005", "name": "Infrared Thermometers", "quantity": 100 }
+      {
+        "productId": "P004",
+        "name": "Patient Monitoring Systems",
+        "quantity": 10
+      },
+      {
+        "productId": "P005",
+        "name": "Infrared Thermometers",
+        "quantity": 100
+      }
     ],
     "totalAmount": 2100000,
     "status": "Processing",
     "orderDate": "2025-08-29",
     "expectedDelivery": "2025-09-07"
+  },
+  {
+    "orderId": "ORD-1756811859475",
+    "customerName": "Tata Steel",
+    "items": [
+      "Steel Rods",
+      "Cement Bags"
+    ],
+    "orderDate": "2025-09-02",
+    "status": "Processing",
+    "totalAmount": 500000
   }
 ]

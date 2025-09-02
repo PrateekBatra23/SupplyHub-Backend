@@ -12,7 +12,7 @@ app.use(express.json());
 app.use("/api/products", productRoutes);
 app.use("/api/warehouses", warehouseRoutes);
 app.use("/api/inventory", inventoryRoutes);
-// app.use("/api/order",orderRoutes);
+app.use("/api/orders",orderRoutes);
 app.use("/api/shipments",shipmentRoutes
 );
 const PORT=5000;
