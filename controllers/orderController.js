@@ -15,3 +15,17 @@ export const createOrder =(req,res)=>{
     writeOrder(data);
     res.status(201).json(newOrder);
 }
+
+export const fetchOrderById=(req,res)=>{
+    const {id}=req.params;
+    const orders=readOrder();
+
+    const order=orders.find(o=> o.orderId===id);
+
+    if(!order){
+        return res.status(404).json({ error: "Order not found" });
+    }
+
+    res.json(order);
+
+};

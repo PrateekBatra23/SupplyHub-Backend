@@ -1,0 +1,12 @@
+[
+  {
+    "id": "USR-1",
+    "username": "admin",
+    "password": "$2a$10$encrypted-hash-here"
+  },
+  {
+    "id": "USR-1757067926301",
+    "username": "hello1233",
+    "password": "$2b$10$4vWvuOMWPgBMJ.D6sQToUuCZ6FfUQHz5jJm2d3YIxrjyES6Vb13HS"
+  }
+]

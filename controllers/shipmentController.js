@@ -5,9 +5,14 @@ export const fetchShipment=(req,res)=>{
     res.json(data);
 };
 
-export const createShipment=(req,res)=>{
-    const data=readShipment();
-    const newShipment = {
+export const createShipment = (req, res) => {
+  const data = readShipment();
+
+  if (!req.body.orderId || !req.body.origin || !req.body.destination) {
+    return res.status(400).json({ error: "Missing required fields" });
+  }
+
+  const newShipment = {
     shipmentId: `SHIP-${Date.now()}`,
     ...req.body
   };
@@ -16,4 +21,5 @@ export const createShipment=(req,res)=>{
   writeShipment(data);
 
   res.status(201).json(newShipment);
-}
+};
+

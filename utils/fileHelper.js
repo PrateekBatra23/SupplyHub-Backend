@@ -10,6 +10,7 @@ const dataPath = path.join(__dirname, "../data");
 const gbPath = path.join(dataPath, "gb.json");
 const orderPath = path.join(dataPath, "order.json");
 const shipmentPath = path.join(dataPath, "shipment.json");
+const inventoryPath = path.join(dataPath, "inventory.json");
 
 
 const safeRead = (file) => {
@@ -41,3 +42,6 @@ export const writeOrder = (data) => safeWrite(orderPath, data);
 
 export const readShipment = () => safeRead(shipmentPath);
 export const writeShipment = (data) => safeWrite(shipmentPath, data);
+
+export const readInventory = () => safeRead(inventoryPath);
+export const writeInventory = (data) => safeWrite(inventoryPath, data);
