@@ -19,3 +19,13 @@ export const authMiddleWare=(req,res,next)=>{
     return res.status(403).json({ message: "Invalid or expired token" });
   }
 };
+
+export const authorizeRoles = (...allowedRoles) => {
+  return (req, res, next) => {
+    const userRole = req.user.role; // req.user comes from authMiddleware
+    if (!allowedRoles.includes(userRole)) {
+      return res.status(403).json({ error: "Access denied" });
+    }
+    next();
+  };
+};

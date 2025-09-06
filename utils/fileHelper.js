@@ -45,3 +45,4 @@ export const writeShipment = (data) => safeWrite(shipmentPath, data);
 
 export const readInventory = () => safeRead(inventoryPath);
 export const writeInventory = (data) => safeWrite(inventoryPath, data);
+

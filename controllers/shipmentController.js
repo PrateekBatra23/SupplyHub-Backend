@@ -23,3 +23,38 @@ export const createShipment = (req, res) => {
   res.status(201).json(newShipment);
 };
 
+export const deleteShipmentById = (req, res) => {
+  const { id } = req.params;
+  const shipments = readShipment();
+
+  const shipmentIndex = shipments.findIndex(
+    (s) => s.shipment_id === Number(id)
+  );
+
+  if (shipmentIndex === -1) {
+    return res.status(404).json({ error: "Shipment not found" });
+  }
+
+  const [deletedShipment] = shipments.splice(shipmentIndex, 1);
+
+  writeShipment(shipments);
+
+  res.status(200).json({
+    message: "Shipment deleted successfully",
+    deletedShipment,
+  });
+};
+export const updateShipmentById = (req, res) => {
+  const { id } = req.params;
+  const shipments = readShipment();
+  const shipment = shipments.find((s) => s.shipment_id === Number(id));
+
+  if (!shipment) {
+    return res.status(404).json({ error: "Shipment not found" });
+  }
+
+  Object.assign(shipment, req.body, { last_updated: new Date() });
+  writeShipment(shipments);
+
+  res.status(200).json({ message: "Shipment updated successfully", shipment });
+};

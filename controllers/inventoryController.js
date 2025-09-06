@@ -30,3 +30,41 @@ export const modifyInventory = (req, res) => {
   writeInventory(inventory);  
   res.status(200).json(inventory);
 };
+
+export const deleteInventoryById = (req, res) => {
+  const { id } = req.params;
+  const inventory = readInventory();
+
+  // ensure id is compared as number
+  const inventoryIndex = inventory.findIndex(
+    (i) => i.inventory_id === Number(id)
+  );
+
+  if (inventoryIndex === -1) {
+    return res.status(404).json({ error: "Inventory item not found" });
+  }
+
+  const [deletedItem] = inventory.splice(inventoryIndex, 1);
+
+  // save updated inventory
+  writeInventory(inventory);
+
+  res.status(200).json({
+    message: "Inventory item deleted successfully",
+    deletedItem,
+  });
+};
+export const updateInventoryById = (req, res) => {
+  const { id } = req.params;
+  const inventory = readInventory();
+  const item = inventory.find((i) => i.inventory_id === Number(id));
+
+  if (!item) {
+    return res.status(404).json({ error: "Inventory item not found" });
+  }
+
+  Object.assign(item, req.body, { last_updated: new Date() });
+  writeInventory(inventory);
+
+  res.status(200).json({ message: "Inventory updated successfully", item });
+};

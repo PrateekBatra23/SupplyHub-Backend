@@ -29,3 +29,33 @@ export const fetchOrderById=(req,res)=>{
     res.json(order);
 
 };
+
+export const deleteOrderById=(req,res)=>{
+    const {id}=req.params;
+    const orders=readOrder();
+    const orderIndex=orders.findIndex((o)=> o.orderId===id);
+
+    if(orderIndex===-1){
+        return res.status(404).json({ error: "Order not found" });
+    }
+
+    const [deletedOrder] = orders.splice(orderIndex, 1);
+    writeOrder(orders);
+
+    res.status(200).json({message:"Order Deleted",deletedOrder});
+
+}
+export const updateOrderById = (req, res) => {
+  const { id } = req.params;
+  const orders = readOrder();
+  const order = orders.find((o) => o.orderId === id);
+
+  if (!order) {
+    return res.status(404).json({ error: "Order not found" });
+  }
+
+  Object.assign(order, req.body, { last_updated: new Date() });
+  writeOrder(orders);
+
+  res.status(200).json({ message: "Order updated successfully", order });
+};
