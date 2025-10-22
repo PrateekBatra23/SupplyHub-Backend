@@ -1,11 +1,12 @@
-import { fetchProducts, addProduct, deleteProductById, updateProductById } from "../controllers/productController.js";
+import { fetchProducts, addProduct, deleteProductById, updateProductById, lowStock } from "../controllers/productController.js";
 
 import express from "express";
 import { authMiddleWare, authorizeRoles } from "../Middleware/authMiddleware.js";
 const router = express.Router();
 
-router.get("/products", authMiddleWare, authorizeRoles("admin","retailer","warehouse_worker"), fetchProducts);
-router.post("/products", authMiddleWare, authorizeRoles("admin"), addProduct);
-router.put("/products/:id", authMiddleWare, authorizeRoles("admin"), updateProductById);
-router.delete("/products/:id", authMiddleWare, authorizeRoles("admin"), deleteProductById);
+router.get("/", authMiddleWare, authorizeRoles("admin", "procurement_manager", "warehouse_manager"), fetchProducts);
+router.post("/", authMiddleWare, authorizeRoles("admin", "procurement_manager"), addProduct);
+router.put("/:id", authMiddleWare, authorizeRoles("admin", "procurement_manager"), updateProductById);
+router.delete("/:id", authMiddleWare, authorizeRoles("admin"), deleteProductById);
+router.get("/low-stock", authMiddleWare, authorizeRoles("admin", "warehouse_manager"), lowStock);
 export default router;

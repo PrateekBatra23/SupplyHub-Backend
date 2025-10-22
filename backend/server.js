@@ -6,6 +6,10 @@ import orderRoutes from "./routes/orderRoutes.js";
 import shipmentRoutes from "./routes/shipmentRoutes.js";
 import authRoutes from"./routes/authRoutes.js";
 import express from "express";
+import vendorRoutes from "./routes/vendorRoutes.js";
+
+
+
 const app = express();
 app.use(express.json());
 
@@ -15,5 +19,7 @@ app.use("/api/inventory", inventoryRoutes);
 app.use("/api/orders",orderRoutes);
 app.use("/api/shipments",shipmentRoutes);
 app.use("/api/auth", authRoutes);
+app.use("/api/vendors", vendorRoutes);
+
 const PORT=5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

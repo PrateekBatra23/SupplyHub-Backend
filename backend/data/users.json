@@ -7,12 +7,14 @@
   {
     "id": "USR-1757067926301",
     "username": "hello1233",
-    "password": "$2b$10$4vWvuOMWPgBMJ.D6sQToUuCZ6FfUQHz5jJm2d3YIxrjyES6Vb13HS"
+    "password": "$2b$10$4vWvuOMWPgBMJ.D6sQToUuCZ6FfUQHz5jJm2d3YIxrjyES6Vb13HS",
+    "role": "admin"
   },
   {
     "id": "USR-1761125021990",
     "username": "hello123",
-    "password": "$2b$10$qGqwZgatRtHlW8RgvvEZ7OMJjSSC5Woy99fffM4RkCzeFCyCohW2a"
+    "password": "$2b$10$qGqwZgatRtHlW8RgvvEZ7OMJjSSC5Woy99fffM4RkCzeFCyCohW2a",
+    "role": "admin"
   },
   {
     "id": "USR-1761125198495",
