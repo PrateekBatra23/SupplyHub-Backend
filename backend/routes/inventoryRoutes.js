@@ -1,7 +1,7 @@
 import { deleteInventoryById, fetchInventory, modifyInventory, updateInventoryById } from "../controllers/inventoryController.js";
 
 import express from "express";
-import { authMiddleWare } from "../Middleware/authMiddleware.js";
+import { authMiddleWare, authorizeRoles } from "../Middleware/authMiddleware.js";
 const router = express.Router();
 
 router.get("/inventory", authMiddleWare, authorizeRoles("admin", "warehouse_worker"), fetchInventory);

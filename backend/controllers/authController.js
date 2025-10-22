@@ -12,7 +12,7 @@ const writeUsers=(data)=>fs.writeFileSync(userFile,JSON.stringify(data,null,2));
 
 
 export const register=(req,res)=>{
-    const {username,password}=req.body;
+    const {username,password,role}=req.body;
     const users=readUsers();
 
     if(users.find((u)=>u.username==username)){
@@ -23,7 +23,8 @@ export const register=(req,res)=>{
     const newUser={
         id:`USR-${Date.now()}`,
         username,
-        password:hashedpassword
+        password:hashedpassword,
+        role: role 
     };
     users.push(newUser);
     writeUsers(users);

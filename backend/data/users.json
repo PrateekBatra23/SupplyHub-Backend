@@ -1,0 +1,27 @@
+[
+  {
+    "id": "USR-1",
+    "username": "admin",
+    "password": "$2a$10$encrypted-hash-here"
+  },
+  {
+    "id": "USR-1757067926301",
+    "username": "hello1233",
+    "password": "$2b$10$4vWvuOMWPgBMJ.D6sQToUuCZ6FfUQHz5jJm2d3YIxrjyES6Vb13HS"
+  },
+  {
+    "id": "USR-1761125021990",
+    "username": "hello123",
+    "password": "$2b$10$qGqwZgatRtHlW8RgvvEZ7OMJjSSC5Woy99fffM4RkCzeFCyCohW2a"
+  },
+  {
+    "id": "USR-1761125198495",
+    "password": "$2b$10$iNgHvaU2vDC31m/C1HQojuSo77GikLFfTp5FfVgg3z5lT3NL.GPby"
+  },
+  {
+    "id": "USR-1761125414049",
+    "username": "admin1",
+    "password": "$2b$10$sZTWhTVRB/jJgWeKK12M9.PensudIVBrZ3BrDh0vDZhmDAUKyHgKu",
+    "role": "admin"
+  }
+]

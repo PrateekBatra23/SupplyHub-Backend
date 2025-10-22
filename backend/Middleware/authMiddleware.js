@@ -22,7 +22,7 @@ export const authMiddleWare=(req,res,next)=>{
 
 export const authorizeRoles = (...allowedRoles) => {
   return (req, res, next) => {
-    const userRole = req.user.role; // req.user comes from authMiddleware
+    const userRole = req.user.role;
     if (!allowedRoles.includes(userRole)) {
       return res.status(403).json({ error: "Access denied" });
     }
