@@ -1,6 +1,5 @@
 
-import { PrismaClient } from "@prisma/client";
-const prisma = new PrismaClient();
+import prisma from "../prismaClient.js";
 
 
 export const fetchProducts = async(req, res)=>{
@@ -30,6 +29,17 @@ export const addProduct = async(req, res) =>{
         vendorId,
       },
     });
+    const defaultWarehouse = await prisma.warehouse.findFirst();
+    if (defaultWarehouse) {
+      await prisma.inventory.create({
+        data: {
+          productId: product.id,
+          warehouseId: defaultWarehouse.id,
+          qtyOnHand: 0,
+          reservedQty: 0,
+        },
+      });
+}
     res.status(201).json(product);
   } catch (error) {
     console.error("Error adding product:", error);
@@ -44,7 +54,10 @@ export const addProduct = async(req, res) =>{
 export const deleteProductById = async (req, res) =>{
  try {
     const { id } = req.params;
+    await prisma.inventory.deleteMany({ where: { productId: id } });
     await prisma.product.delete({ where: { id } });
+
+
     res.status(200).json({ message: "Product deleted successfully" });
   } catch (error) {
     console.error("Error deleting product:", error);
@@ -54,6 +67,8 @@ export const deleteProductById = async (req, res) =>{
     res.status(500).json({ error: "Failed to delete product" });
   }
 };
+
+
 export const updateProductById = async (req, res) => {
   try {
     const { id } = req.params;

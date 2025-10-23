@@ -5,9 +5,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 
-import { PrismaClient } from "@prisma/client";
-const prisma = new PrismaClient();
-
+import prisma from "../prismaClient.js";
 
 
 export const register= async (req,res)=>{

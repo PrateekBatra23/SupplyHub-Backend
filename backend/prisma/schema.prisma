@@ -12,6 +12,19 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+enum OrderStatus {
+  Processing
+  InTransit
+  Completed
+  Cancelled
+}
+
+enum ShipmentStatus {
+  Pending
+  Dispatched
+  Delivered
+  Cancelled
+}
 
 model User {
   id        String   @id @default(uuid())
@@ -72,11 +85,13 @@ model Order {
   id               String      @id @default(uuid())
   customerName     String
   totalAmount      Float
-  status           String      @default("Processing")
+  status           OrderStatus @default(Processing)
   orderDate        DateTime    @default(now())
   expectedDelivery DateTime?
   items            OrderItem[]
   shipments        Shipment[]
+  cancelledAt   DateTime?
+  cancelReason  String?
 }
 
 model OrderItem {
@@ -94,12 +109,13 @@ model Shipment {
   id               String    @id @default(uuid())
   orderId          String
   warehouseId      String?
-  status           String    @default("Pending")
+  status           ShipmentStatus    @default(Pending)
   origin           String?
   destination      String?
   expectedDelivery DateTime?
   createdAt        DateTime  @default(now())
-
   order     Order      @relation(fields: [orderId], references: [id])
   warehouse Warehouse? @relation(fields: [warehouseId], references: [id])
+  cancelledAt   DateTime?
+  cancelReason  String?
 }
