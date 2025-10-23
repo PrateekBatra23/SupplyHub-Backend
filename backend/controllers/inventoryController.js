@@ -1,70 +1,66 @@
-import { readInventory, writeInventory } from "../utils/fileHelper.js";
 
-export const fetchInventory = (req, res) => {
-  const inventory = readInventory();
-  res.json(inventory);
-};
+import { PrismaClient } from "@prisma/client";
+const prisma = new PrismaClient();
 
-export const modifyInventory = (req, res) => {
-  const inventory = readInventory();
-  const { product_id, warehouse_id, quantity } = req.body;
-
-  
-  const existing = inventory.find(
-    (item) => item.product_id === product_id && item.warehouse_id === warehouse_id
-  );
-
-  if (existing) {
-    existing.quantity += quantity;
-    existing.last_updated = new Date().toISOString();
-  } else {
-    inventory.push({
-      inventory_id: inventory.length + 1,
-      product_id,
-      warehouse_id,
-      quantity,
-      last_updated: new Date().toISOString(),
+export const getInventory = async (req, res) =>{
+  try {
+    const inventory = await prisma.inventory.findMany({
+      include: { warehouse: true, product: true },
+      orderBy: { lastUpdated: "desc" },
     });
-  }
+    res.status(200).json(inventory);
 
-  writeInventory(inventory);  
-  res.status(200).json(inventory);
+  } catch (error) {
+    console.error("Error fetching inventory:", error);
+    res.status(500).json({ error: "Failed to fetch inventory" });
+  }
 };
 
-export const deleteInventoryById = (req, res) => {
-  const { id } = req.params;
-  const inventory = readInventory();
 
-  // ensure id is compared as number
-  const inventoryIndex = inventory.findIndex(
-    (i) => i.inventory_id === Number(id)
-  );
+export const addInventory = async (req, res) => {
+  try {
+    const { warehouseId, productId, qtyOnHand = 0, reservedQty = 0 } = req.body;
 
-  if (inventoryIndex === -1) {
-    return res.status(404).json({ error: "Inventory item not found" });
+    const entry = await prisma.inventory.create({
+      data: { warehouseId, productId, qtyOnHand, reservedQty },
+    });
+    res.status(201).json({ message: "Inventory record created", entry });
+
+  } catch (error) {
+    console.error("Error creating inventory:", error);
+    res.status(500).json({ error: "Failed to create inventory record" });
   }
-
-  const [deletedItem] = inventory.splice(inventoryIndex, 1);
-
-  // save updated inventory
-  writeInventory(inventory);
-
-  res.status(200).json({
-    message: "Inventory item deleted successfully",
-    deletedItem,
-  });
 };
-export const updateInventoryById = (req, res) => {
-  const { id } = req.params;
-  const inventory = readInventory();
-  const item = inventory.find((i) => i.inventory_id === Number(id));
 
-  if (!item) {
-    return res.status(404).json({ error: "Inventory item not found" });
+export const updateInventory = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { qtyOnHand, reservedQty } = req.body;
+    const inventory = await prisma.inventory.update({
+      where: { id },
+      data: { qtyOnHand, reservedQty },
+    });
+
+    res.status(200).json({ message: "Inventory updated successfully", inventory });
+
+
+  } catch (error) {
+    console.error("Error updating inventory:", error);
+    if (error.code === "P2025") {
+      return res.status(404).json({ error: "Inventory record not found" });
+    }
+    res.status(500).json({ error: "Failed to update inventory" });
   }
+};
 
-  Object.assign(item, req.body, { last_updated: new Date() });
-  writeInventory(inventory);
-
-  res.status(200).json({ message: "Inventory updated successfully", item });
+export const deleteInventory = async (req, res) => {
+  try {
+    const { id } = req.params;
+    await prisma.inventory.delete({ where: { id } });
+    res.status(200).json({ message: "Inventory record deleted" });
+    
+  } catch (error) {
+    console.error("Error deleting inventory:", error);
+    res.status(500).json({ error: "Failed to delete inventory record" });
+  }
 };

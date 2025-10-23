@@ -25,5 +25,11 @@
     "username": "admin1",
     "password": "$2b$10$sZTWhTVRB/jJgWeKK12M9.PensudIVBrZ3BrDh0vDZhmDAUKyHgKu",
     "role": "admin"
+  },
+  {
+    "id": "USR-1761203597165",
+    "username": "admin12",
+    "password": "$2b$10$XSo3/08dfytm0nHL8zFy4usaPga6AlGVY7SQGjvGQY5/kAI72xo2K",
+    "role": "admin"
   }
 ]

@@ -32,14 +32,74 @@ model Vendor {
 }
 
 model Product {
-  id           String   @id @default(uuid())
+  id           String      @id @default(uuid())
   name         String
   description  String?
   price        Float
-  sku          String?  @unique
+  sku          String?     @unique
   category     String?
-  reorderPoint Int?     @default(0)
+  reorderPoint Int?        @default(0)
   vendorId     String?
-  vendor       Vendor?  @relation(fields: [vendorId], references: [id])
-  createdAt    DateTime @default(now())
+  vendor       Vendor?     @relation(fields: [vendorId], references: [id])
+  orderItems   OrderItem[]
+  inventories  Inventory[]
+  createdAt    DateTime    @default(now())
+}
+
+model Warehouse {
+  id          String      @id @default(uuid())
+  name        String
+  location    String?
+  capacity    Int?
+  inventories Inventory[]
+  shipments   Shipment[]
+  createdAt   DateTime    @default(now())
+}
+
+model Inventory {
+  id          String   @id @default(uuid())
+  warehouseId String
+  productId   String
+  qtyOnHand   Int      @default(0)
+  reservedQty Int      @default(0)
+  lastUpdated DateTime @updatedAt
+
+  warehouse Warehouse @relation(fields: [warehouseId], references: [id])
+  product   Product   @relation(fields: [productId], references: [id])
+}
+
+model Order {
+  id               String      @id @default(uuid())
+  customerName     String
+  totalAmount      Float
+  status           String      @default("Processing")
+  orderDate        DateTime    @default(now())
+  expectedDelivery DateTime?
+  items            OrderItem[]
+  shipments        Shipment[]
+}
+
+model OrderItem {
+  id        String @id @default(uuid())
+  orderId   String
+  productId String
+  quantity  Int
+  unitPrice Float
+
+  order   Order   @relation(fields: [orderId], references: [id])
+  product Product @relation(fields: [productId], references: [id])
+}
+
+model Shipment {
+  id               String    @id @default(uuid())
+  orderId          String
+  warehouseId      String?
+  status           String    @default("Pending")
+  origin           String?
+  destination      String?
+  expectedDelivery DateTime?
+  createdAt        DateTime  @default(now())
+
+  order     Order      @relation(fields: [orderId], references: [id])
+  warehouse Warehouse? @relation(fields: [warehouseId], references: [id])
 }

@@ -1,4 +1,4 @@
-import { readData, writeData } from "../utils/fileHelper.js";
+
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 

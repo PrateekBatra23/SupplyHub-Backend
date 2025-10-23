@@ -1,60 +1,69 @@
-import { readShipment, writeShipment } from "../utils/fileHelper.js"
+import { PrismaClient } from "@prisma/client";
+const prisma = new PrismaClient();
 
-export const fetchShipment=(req,res)=>{
-    const data=readShipment();
-    res.json(data);
+
+
+export const fetchShipment= async (req,res)=>{
+    try {
+    const shipments = await prisma.shipment.findMany({
+      include: { order: true, warehouse: true },
+      orderBy: { createdAt: "desc" },
+    });
+    res.status(200).json(shipments);
+  } catch (error) {
+    console.error("Error fetching shipments:", error);
+    res.status(500).json({ error: "Failed to fetch shipments" });
+  }
 };
 
-export const createShipment = (req, res) => {
-  const data = readShipment();
+export const createShipment = async (req, res) => {
+  try {
+    const { orderId, warehouseId, origin, destination, expectedDelivery } = req.body;
 
-  if (!req.body.orderId || !req.body.origin || !req.body.destination) {
-    return res.status(400).json({ error: "Missing required fields" });
+    const shipment = await prisma.shipment.create({
+      data: {
+        orderId,
+        warehouseId,
+        origin,
+        destination,
+        expectedDelivery: expectedDelivery ? new Date(expectedDelivery) : null,
+        status: "Pending",
+      },
+    });
+
+    res.status(201).json({ message: "Shipment created successfully", shipment });
+  } catch (error) {
+    console.error("Error creating shipment:", error);
+    res.status(500).json({ error: "Failed to create shipment" });
   }
-
-  const newShipment = {
-    shipmentId: `SHIP-${Date.now()}`,
-    ...req.body
-  };
-
-  data.push(newShipment);
-  writeShipment(data);
-
-  res.status(201).json(newShipment);
 };
 
-export const deleteShipmentById = (req, res) => {
-  const { id } = req.params;
-  const shipments = readShipment();
-
-  const shipmentIndex = shipments.findIndex(
-    (s) => s.shipment_id === Number(id)
-  );
-
-  if (shipmentIndex === -1) {
-    return res.status(404).json({ error: "Shipment not found" });
+export const deleteShipmentById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    await prisma.shipment.delete({ where: { id } });
+    res.status(200).json({ message: "Shipment deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting shipment:", error);
+    res.status(500).json({ error: "Failed to delete shipment" });
   }
-
-  const [deletedShipment] = shipments.splice(shipmentIndex, 1);
-
-  writeShipment(shipments);
-
-  res.status(200).json({
-    message: "Shipment deleted successfully",
-    deletedShipment,
-  });
 };
-export const updateShipmentById = (req, res) => {
-  const { id } = req.params;
-  const shipments = readShipment();
-  const shipment = shipments.find((s) => s.shipment_id === Number(id));
+export const updateShipmentById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { status } = req.body;
 
-  if (!shipment) {
-    return res.status(404).json({ error: "Shipment not found" });
+    const shipment = await prisma.shipment.update({
+      where: { id },
+      data: { status },
+    });
+
+    res.status(200).json({ message: "Shipment status updated", shipment });
+  } catch (error) {
+    console.error("Error updating shipment:", error);
+    if (error.code === "P2025") {
+      return res.status(404).json({ error: "Shipment not found" });
+    }
+    res.status(500).json({ error: "Failed to update shipment" });
   }
-
-  Object.assign(shipment, req.body, { last_updated: new Date() });
-  writeShipment(shipments);
-
-  res.status(200).json({ message: "Shipment updated successfully", shipment });
 };
