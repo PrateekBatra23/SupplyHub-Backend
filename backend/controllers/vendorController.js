@@ -19,7 +19,12 @@ export const createVendor = async(req, res) => {
   try {
     const { name, contact, email, rating = 0 } = req.body;
     const vendor = await prisma.vendor.create({
-      data: { name, contact, email, rating },
+      data: {
+        name: name.trim(),
+        contact: contact?.trim() || null,
+        email: email?.trim() || null,
+        rating: parseInt(rating) || 0,
+      },
     });
     res.status(201).json(vendor);
   } catch (error) {
@@ -34,11 +39,21 @@ export const createVendor = async(req, res) => {
 export const updateVendor = async(req, res) => {
   try {
     const { id } = req.params;
-    const vendor = await prisma.vendor.update({
+    const { name, contact, email, rating } = req.body;
+    if (!name) {
+      return res.status(400).json({ error: "Vendor name is required" });
+    }
+    const updatedVendor = await prisma.vendor.update({
       where: { id },
-      data: req.body,
+      data: {
+        name: name.trim(),
+        contact: contact?.trim() || null,
+        email: email?.trim() || null,
+        rating: rating !== undefined ? parseInt(rating) : undefined,
+      },
     });
-    res.status(200).json(vendor);
+
+    res.status(200).json(updatedVendor);
   } catch (error) {
     console.error("Error updating vendor :", error);
     if (error.code === "P2025") {
